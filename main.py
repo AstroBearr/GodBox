@@ -1,18 +1,23 @@
 import pygame,sys
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self,x,y,type = "water"):
+    def __init__(self,x,y,type = "water",temperature = 0):
         super().__init__()
         self.type = type
+        self.temperature = temperature
         self.image = pygame.surface.Surface((15,15))
+        self.getColor()
+
+
+        self.rect = self.image.get_rect(topleft=(x * 15,y * 15))
+
+    def getColor(self):
         if self.type == "water":
             self.image.fill("blue")
         elif self.type == "grass":
             self.image.fill("green")
         elif self.type == "stone":
             self.image.fill((55,55,55))#Grey
-
-        self.rect = self.image.get_rect(topleft=(x * 15,y * 15))
 
     def update(self):
         global selected
@@ -25,12 +30,7 @@ class Tile(pygame.sprite.Sprite):
                 if selected >= 8:
                     self.type = "water"
 
-                if self.type == "water":
-                    self.image.fill("blue")
-                elif self.type == "grass":
-                    self.image.fill("green")
-                elif self.type == "stone":
-                    self.image.fill((55,55,55))#Grey
+                self.getColor()
 
 
 
