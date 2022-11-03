@@ -84,15 +84,21 @@ pygame.display.set_caption("God Box Beta")
 
 
 while True:
+    key = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit(0)
-        elif event.type == pygame.MOUSEWHEEL:
+        if event.type == pygame.MOUSEWHEEL:
             if event.y == 1:
                 selected += 1
             elif event.y == -1:
                 selected -= 1
+        if event.type == pygame.KEYUP:
+            if key[pygame.K_RIGHT]:
+                selected += 2
+            if key[pygame.K_LEFT]:
+                selected -= 2
 
     screen.fill("grey")
 
