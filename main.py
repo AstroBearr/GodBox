@@ -20,9 +20,9 @@ class Tile(pygame.sprite.Sprite):
             if(pygame.mouse.get_pressed(3)[0]):
                 if selected >= 0:
                     self.type = "grass"
-                if selected >= 4:
+                if selected >= 2:
                     self.type = "stone"
-                if selected >= 8:
+                if selected >= 4:
                     self.type = "water"
 
                 if self.type == "water":
@@ -34,11 +34,48 @@ class Tile(pygame.sprite.Sprite):
 
 
 
+
+def renderFont():
+    global selectedstr
+    killsurf2 = gamefont2.render(f"", True, (0, 0, 0))
+    killrect2 = killsurf2.get_rect(center=(600, 650))
+    killsurf3 = gamefont2.render(f"", True, (0, 0, 0))
+    killrect3 = killsurf2.get_rect(center=(600 - 225, 650))
+    if selected >= 0:
+        selectedstr = "grass"
+        killsurf2 = gamefont2.render(f"stone", True, (0, 0, 0))
+        killrect2 = killsurf2.get_rect(center=(600, 650))
+        killsurf3 = gamefont2.render(f"", True, (0, 0, 0))
+        killrect3 = killsurf2.get_rect(center=(375 - 225, 650))
+    if selected >= 2:
+        selectedstr = "stone"
+        killsurf2 = gamefont2.render(f"water", True, (0, 0, 0))
+        killrect2 = killsurf2.get_rect(center=(600, 650))
+        killsurf3 = gamefont2.render(f"grass", True, (0, 0, 0))
+        killrect3 = killsurf2.get_rect(center=(375 - 225, 650))
+    if selected >= 4:
+        selectedstr = "water"
+        killsurf2 = gamefont2.render(f"", True, (0, 0, 0))
+        killrect2 = killsurf2.get_rect(center=(600, 650))
+        killsurf3 = gamefont2.render(f"stone", True, (0, 0, 0))
+        killrect3 = killsurf2.get_rect(center=(375 - 225, 650))
+
+    screen.blit(killsurf2, killrect2)
+    screen.blit(killsurf3, killrect3)
+
+    killsurf = gamefont.render(f"{selectedstr}", True, (0, 0, 0))
+    killrect = killsurf.get_rect(center=(375, 650))
+    screen.blit(killsurf, killrect)
+
+
 pygame.init()
+gamefont = pygame.font.Font('Assets/Fonts/blocco.ttf', 40)
+gamefont2 = pygame.font.Font('Assets/Fonts/blocco.ttf', 15)
 screen = pygame.display.set_mode((750, 750))
 clock = pygame.time.Clock()
 tiles = pygame.sprite.Group()
 selected = 0
+selectedstr = "grass"
 pygame.mouse.set_visible(False)
 for x in range(50):
     for y in range(50):
@@ -57,18 +94,21 @@ while True:
             elif event.y == -1:
                 selected -= 1
 
-
-    screen.fill((200, 200, 200))
+    screen.fill("grey")
 
     tiles.draw(screen)
 
     tiles.update()
 
+    renderFont()
+
     screen.blit(pygame.image.load("Assets/Art/Mouse.png"), (pygame.mouse.get_pos()[0] - 10, pygame.mouse.get_pos()[1] - 4))
 
     pygame.display.update()
 
-    if selected > 8:
-        selected = 8
+    if selected > 4:
+        selected = 4
+    if selected < 0:
+        selected = 0
 
     clock.tick(60)
