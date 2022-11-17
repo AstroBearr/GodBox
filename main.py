@@ -1,22 +1,38 @@
-import random
-
 import pygame,sys
+import random
+import math
+
+def clamp(num, min_value, max_value):
+   return max(min(num, max_value), min_value)
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self,x,y,type = "water"):
+    def __init__(self,x,y,type = "water",temperature = 0):
         super().__init__()
         self.type = type
         self.prev = type
+        self.temperature = random.randint(-5, 5)
         self.image = pygame.surface.Surface((15,15))
-        if self.type == "water":
-            self.image.fill("blue")
-        elif self.type == "grass":
-            self.image.fill("green")
-        elif self.type == "stone":
-            self.image.fill((55,55,55))#Grey
+        self.getColor()
+
 
         self.rect = self.image.get_rect(topleft=(x * 15,y * 15))
-    #random junk kode
+
+    def getColor(self):
+        color = (0, 0, 0)
+        if self.type == "water":
+            color = (30, 30, 150)
+        elif self.type == "grass":
+            color = (30, 150, 30)
+        elif self.type == "stone":
+            color = (55, 55, 55)  # Grey
+
+        lst = list(color)
+        lst[0] = clamp(lst[0] + self.temperature, 0, 255)
+        lst[2] = clamp(lst[2] - self.temperature, 0, 255)
+        color = tuple(lst)
+
+        self.image.fill(color)
+
     def update(self):
         global selected
         self.prev = self.type
@@ -31,12 +47,7 @@ class Tile(pygame.sprite.Sprite):
                 if selected >= 6:
                     self.type = self.prev
 
-                if self.type == "water":
-                    self.image.fill("blue")
-                elif self.type == "grass":
-                    self.image.fill("green")
-                elif self.type == "stone":
-                    self.image.fill((55,55,55))#Grey
+                self.getColor()
 
 
 class Human(pygame.sprite.Sprite):
