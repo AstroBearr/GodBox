@@ -1,4 +1,90 @@
 import pygame,sys
+import pygame
+
+pygame.init()
+
+# screen resolution
+res = (720, 720)
+
+# opens up a window
+screen = pygame.display.set_mode(res)
+
+# white color
+color = (0, 0, 0)
+
+# light shade of the button
+color_light = (170, 170, 170)
+
+# dark shade of the button
+color_dark = (100, 100, 100)
+
+# stores the width of the
+# screen into a variable
+width = screen.get_width()
+
+# stores the height of the
+# screen into a variable
+height = screen.get_height()
+green = (0, 255, 0)
+red = (255, 0, 0)
+# defining a font
+click = False
+smallfont = pygame.font.SysFont('Impact', 175, red)
+
+# rendering a text written in
+# this font
+text = smallfont.render('START', True, color)
+FirstScreen = True
+SecondScreen = False
+while FirstScreen:
+    import pygame
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit(0)
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            FirstScreen = False
+            SecondScreen = True
+
+    smallfont = pygame.font.SysFont('Impact', 175,)
+    green = (0, 255, 0)
+    res = (720, 720)
+    text = smallfont.render('START', True, color)
+    width = screen.get_width()
+    # stores the height of the
+    color = (0, 0, 0)
+
+    # light shade of the button
+    color_light = (170, 170, 170)
+
+    # dark shade of the button
+    color_dark = (100, 100, 100)
+    # screen into a variable
+    height = screen.get_height()
+    screen = pygame.display.set_mode(res)
+    screen.fill((green))
+
+    # stores the (x,y) coordinates into
+    # the variable as a tuple
+    mouse = pygame.mouse.get_pos()
+
+    # if mouse is hovered on a button it
+    # changes to lighter shade
+    if width / 2 <= mouse[0] <= width / 2 + 140 and height / 2 <= mouse[1] <= height / 2 + 40:
+        pygame.draw.rect(screen, color_light, [width / 2, height / 2, 140, 40])
+
+
+    else:
+        pygame.draw.rect(screen, color_dark, [width / 2, height / 2, 140, 40])
+
+        # superimposing the text onto our button
+        screen.blit(text, (40,35))
+
+    # updates the frames of the game
+        pygame.display.update()
+
+
 
 class Tile(pygame.sprite.Sprite):
     def __init__(self,x,y,type = "water"):
@@ -34,7 +120,7 @@ class Tile(pygame.sprite.Sprite):
 
 
 
-pygame.init()
+
 screen = pygame.display.set_mode((750, 750))
 clock = pygame.time.Clock()
 tiles = pygame.sprite.Group()
@@ -46,7 +132,7 @@ for x in range(50):
 pygame.display.set_caption("God Box Beta")
 
 
-while True:
+while SecondScreen:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
