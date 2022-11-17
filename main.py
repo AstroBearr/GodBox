@@ -7,7 +7,6 @@ def clamp(num, min_value, max_value):
 
 
 
-print(clamp(-5,0,20))
 
 class Tile(pygame.sprite.Sprite):
     def __init__(self,x,y,type = "water",temperature = 0):
